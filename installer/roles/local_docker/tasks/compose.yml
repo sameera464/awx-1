@@ -15,6 +15,18 @@
     - docker-compose.yml
   register: awx_compose_config
 
+- name: Render secrets file
+  template:
+    src: environment.sh.j2
+    dest: "{{ docker_compose_dir }}/environment.sh"
+    mode: 0600
+
+- name: Render application credentials
+  template:
+    src: credentials.py.j2
+    dest: "{{ docker_compose_dir }}/credentials.py"
+    mode: 0600
+
 - name: Render SECRET_KEY file
   copy:
     content: "{{ secret_key }}"
@@ -23,7 +35,7 @@
 
 - name: Start the containers
   docker_service:
-    project_src: "{{ docker_compose_dir }}/"
+    project_src: "{{ docker_compose_dir }}"
   register: awx_compose_start
 
 - name: Update CA trust in awx_web container
