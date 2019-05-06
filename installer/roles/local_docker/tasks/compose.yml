@@ -19,7 +19,7 @@
   template:
     src: environment.sh.j2
     dest: "{{ docker_compose_dir }}/environment.sh"
-    mode: 0600
+    mode: 0777
 
 - name: Render application credentials
   template:
